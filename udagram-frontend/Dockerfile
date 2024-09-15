@@ -1,31 +1,15 @@
-### Build Stage
+### Build
 FROM beevelop/ionic:v2021.06.1 AS ionic
-
-# Check Node.js and npm versions to match the project's requirements
-RUN node -v && npm -v
-
-# Create app directory
+## Create app directory
 WORKDIR /usr/src/app
-
-# Copy package files and install dependencies
+## Install app dependencies
+## A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 RUN npm ci
-
-# Copy the rest of the app and build the project
+## Bundle app source
 COPY . .
-RUN ionic build --prod
-
-### Production Stage
+RUN ionic build
+### Run
 FROM nginx:alpine
-
-# Copy Nginx configuration (optional, if you need custom routing)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy built app from the ionic build stage to the Nginx directory
-COPY --from=ionic /usr/src/app/www /usr/share/nginx/html
-
-# Expose port 80 if necessary (optional, but recommended)
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+#COPY www /usr/share/nginx/html
+COPY --from=ionic  /usr/src/app/www /usr/share/nginx/html
