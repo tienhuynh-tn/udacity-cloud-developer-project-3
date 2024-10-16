@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  AWS_BUCKET: cloud-developer-project-3-tienhuynh-tn
+  AWS_PROFILE: default
+  AWS_REGION: us-east-2
+  JWT_SECRET: testing
+  POSTGRES_DB: postgres
+  POSTGRES_HOST: cloud-developer-project-3-tienhuynh-tn.cjgk2wz9wy8v.us-east-2.rds.amazonaws.com
+  URL: http://localhost:8100
+metadata:
+  name: env-config
